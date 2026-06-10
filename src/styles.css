@@ -1,0 +1,346 @@
+/* Conversational insurance-agent chat, styled to Accenture's brand.
+   Brand cues: Accenture purple (#A100FF), confident black, generous white
+   space, and the signature "greater-than" mark. The experience is a friendly
+   virtual agent that guides you to a policy one question at a time. */
+
+:root {
+  --purple: #a100ff;
+  --purple-dark: #7500c0;
+  --ink: #0a0a0a;
+  --muted: #6a6a78;
+  --bot-bubble: #f2eef7;
+  --canvas: #f7f5fa;
+  --white: #ffffff;
+  --error: #c0344d;
+  --shadow: 0 18px 50px rgba(10, 10, 10, 0.14);
+  --radius: 22px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica,
+    Arial, sans-serif;
+  color: var(--ink);
+  background: radial-gradient(
+      1200px 600px at 85% -10%,
+      rgba(161, 0, 255, 0.16),
+      transparent 60%
+    ),
+    var(--canvas);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---- Layout ---------------------------------------------------------- */
+
+.app {
+  height: 100%;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.chat {
+  width: 100%;
+  max-width: 480px;
+  height: min(760px, 92vh);
+  background: var(--white);
+  border-radius: 26px;
+  box-shadow: var(--shadow);
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  overflow: hidden;
+}
+
+/* ---- Header ---------------------------------------------------------- */
+
+.chat__header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 20px 24px;
+  background: linear-gradient(120deg, #000000 0%, #2a0a3f 55%, var(--purple) 130%);
+  color: var(--white);
+}
+
+/* The Accenture "greater-than" mark sits in the avatar. */
+.avatar {
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--purple);
+  background: var(--white);
+  border-radius: 12px;
+}
+
+.chat__heading h1 {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.chat__status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  opacity: 0.92;
+}
+
+.chat__reset {
+  margin-left: auto;
+  padding: 7px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.15s, opacity 0.15s;
+}
+
+.chat__reset:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.chat__reset:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.chat__status .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #6ee7a8;
+  box-shadow: 0 0 0 0 rgba(110, 231, 168, 0.7);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(110, 231, 168, 0.6);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(110, 231, 168, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(110, 231, 168, 0);
+  }
+}
+
+/* ---- Messages -------------------------------------------------------- */
+
+.chat__messages {
+  padding: 22px 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  scroll-behavior: smooth;
+}
+
+.row {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  max-width: 100%;
+}
+
+.row--user {
+  justify-content: flex-end;
+}
+
+.bubble-avatar {
+  flex: 0 0 auto;
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--purple);
+  background: var(--bot-bubble);
+  border-radius: 8px;
+  margin-bottom: 2px;
+}
+
+.bubble {
+  max-width: 78%;
+  padding: 12px 16px;
+  font-size: 15px;
+  line-height: 1.45;
+  border-radius: var(--radius);
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  animation: rise 0.25s ease;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.bubble--bot {
+  background: var(--bot-bubble);
+  color: var(--ink);
+  border-bottom-left-radius: 6px;
+}
+
+.bubble--user {
+  background: linear-gradient(135deg, var(--purple), var(--purple-dark));
+  color: var(--white);
+  border-bottom-right-radius: 6px;
+}
+
+.bubble--error {
+  background: #fdecef;
+  color: var(--error);
+  border: 1px solid #f6c9d2;
+}
+
+/* ---- Typing indicator ------------------------------------------------ */
+
+.bubble--typing {
+  display: inline-flex;
+  gap: 5px;
+  padding: 14px 16px;
+}
+
+.typing-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--muted);
+  animation: blink 1.4s infinite both;
+}
+
+.typing-dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes blink {
+  0%,
+  80%,
+  100% {
+    opacity: 0.3;
+    transform: translateY(0);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(-3px);
+  }
+}
+
+/* ---- Done banner ----------------------------------------------------- */
+
+.chat__done {
+  align-self: center;
+  margin-top: 6px;
+  padding: 10px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--purple-dark);
+  background: #f3e9fc;
+  border-radius: 999px;
+}
+
+/* ---- Composer -------------------------------------------------------- */
+
+.chat__composer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border-top: 1px solid #ece8f2;
+  background: var(--white);
+}
+
+.chat__composer input {
+  flex: 1;
+  min-width: 0;
+  padding: 13px 18px;
+  font-size: 15px;
+  color: var(--ink);
+  background: var(--bot-bubble);
+  border: 1px solid transparent;
+  border-radius: 999px;
+  outline: none;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.chat__composer input::placeholder {
+  color: var(--muted);
+}
+
+.chat__composer input:focus {
+  background: var(--white);
+  border-color: var(--purple);
+}
+
+.chat__composer input:disabled {
+  opacity: 0.6;
+}
+
+.chat__composer button {
+  flex: 0 0 auto;
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  color: var(--white);
+  background: linear-gradient(135deg, var(--purple), var(--purple-dark));
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.12s, opacity 0.15s;
+}
+
+.chat__composer button:hover:not(:disabled) {
+  transform: scale(1.06);
+}
+
+.chat__composer button:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
+.chat__composer button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ---- Scrollbar ------------------------------------------------------- */
+
+.chat__messages::-webkit-scrollbar {
+  width: 7px;
+}
+
+.chat__messages::-webkit-scrollbar-thumb {
+  background: #e0dce8;
+  border-radius: 999px;
+}
