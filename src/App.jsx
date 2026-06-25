@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { sendMessage } from './api.js'
 
-const BOT_NAME = 'Maya'
+const BOT_NAME = 'Alex'
 
 // A friendly opener
 const GREETING = {

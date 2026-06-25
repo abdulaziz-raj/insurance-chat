@@ -22,17 +22,20 @@ application, asking one question at a time.
 # install dependencies
 npm install
 
-# start the dev server (http://localhost:5173)
+# start the dev server (http://localhost:5174)
 npm run dev
 ```
 
-Then open <http://localhost:5173> and chat with Maya.
+Then open <http://localhost:5174> and chat with Maya.
+
+> **Port note:** this app runs on **5174**. The Rules Authoring Workbench web UI
+> uses 5173, so the two can run side by side without clashing.
 
 ### Scripts
 
 | Command           | Description                                  |
 | ----------------- | -------------------------------------------- |
-| `npm run dev`     | Start the Vite dev server on port 5173       |
+| `npm run dev`     | Start the Vite dev server on port 5174       |
 | `npm run build`   | Produce a production build in `dist/`        |
 | `npm run preview` | Serve the production build locally           |
 

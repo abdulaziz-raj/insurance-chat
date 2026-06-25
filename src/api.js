@@ -4,7 +4,9 @@
 // In dev, /termlife_api is proxied to the backend (see vite.config.js),
 // so requests stay same-origin and CORS is a non-issue.
 
-const ENDPOINT = '/termlife_api/eapp'
+// Engine-driven eligibility interview: the workbench rules engine drives which questions are
+// asked and the decision; this endpoint orchestrates phrasing/extraction around it.
+const ENDPOINT = '/termlife_api/interview'
 
 // The backend returns a JSON object, but the exact field names aren't pinned
 // down yet. We probe a list of common keys so the UI keeps working no matter

@@ -10,7 +10,10 @@ const BACKEND = process.env.VITE_BACKEND ?? 'http://localhost:8080'
 export default defineConfig({
   plugins: [react()],
   server: {
-    port: 5173,
+    // 5174 to avoid clashing with the Rules Authoring Workbench web UI on 5173.
+    // strictPort makes a conflict fail loudly rather than silently picking another port.
+    port: 5174,
+    strictPort: true,
     proxy: {
       // The live insurance agent lives under /termlife_api; /api covers the
       // other demo controllers (chat, nigo, claims_intake, ai/search, …).
