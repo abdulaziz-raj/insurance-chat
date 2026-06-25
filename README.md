@@ -1,6 +1,6 @@
-# Maya — Insurance Assistant (Frontend)
+# Alex — Insurance Assistant (Frontend)
 
-A React + Vite chat UI for **Maya**, a conversational insurance assistant. It
+A React + Vite chat UI for **Alex**, a conversational insurance assistant. It
 talks to a Spring AI backend that walks the user through a life-insurance
 application, asking one question at a time.
 
@@ -26,7 +26,7 @@ npm install
 npm run dev
 ```
 
-Then open <http://localhost:5174> and chat with Maya.
+Then open <http://localhost:5174> and chat with Alex.
 
 > **Port note:** this app runs on **5174**. The Rules Authoring Workbench web UI
 > uses 5173, so the two can run side by side without clashing.
@@ -48,9 +48,11 @@ app so the browser only ever makes same-origin requests. See
 - `/termlife_api/*` → backend (the live insurance agent)
 - `/api/*` → backend (other demo endpoints)
 
-The chat calls **`GET /termlife_api/eapp?message=<user text>`** (see
+The chat calls **`GET /termlife_api/interview?message=<user text>`** (see
 [`src/api.js`](src/api.js)), which is handled by the backend's
-`DecisionEngineApp` controller.
+`InterviewController`. A stable `X-Conversation-Id` header keeps each visitor's
+answers isolated. The controller orchestrates phrasing/extraction around the
+workbench rules engine, which drives the questions and the eligibility decision.
 
 ### Pointing at a different backend
 

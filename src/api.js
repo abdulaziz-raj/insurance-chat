@@ -1,6 +1,6 @@
-// Talks to the Java insurance-agent backend (DecisionEngineApp).
+// Talks to the Java insurance-agent backend (InterviewController).
 //
-// Endpoint:  GET /termlife_api/eapp?message=<user text>
+// Endpoint:  GET /termlife_api/interview?message=<user text>
 // In dev, /termlife_api is proxied to the backend (see vite.config.js),
 // so requests stay same-origin and CORS is a non-issue.
 
